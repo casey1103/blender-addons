@@ -106,6 +106,7 @@ class PIE_OT_SetObjectModePie(Operator):
         if (context.active_object):
             try:
                 bpy.ops.object.mode_set(mode=self.mode)
+                bpy.ops.ed.undo_push(message=f'Set mode to {self.mode}')
             except TypeError:
                 msg = context.active_object.name + " It is not possible to enter into the interactive mode"
                 self.report(type={"WARNING"}, message=msg)
@@ -361,7 +362,7 @@ class PIE_MT_ObjectEditMode(Menu):
             # 9 - TOP - RIGHT
             pie.separator()
             # 1 - BOTTOM - LEFT
-            pie.separator()
+            pie.operator(PIE_OT_SetObjectModePie.bl_idname, text="Vertex Paint", icon="VPAINT_HLT").mode = "VERTEX_GPENCIL"
             # 3 - BOTTOM - RIGHT
             pie.operator(
                 PIE_OT_SetObjectModePie.bl_idname,
